@@ -20,7 +20,7 @@ message Person {
 
   message PhoneNumber {
     optional string number = 1;
-    optional PhoneType type = 2 [default = PHONE_TYPE_HOME];
+    optional PhoneType type = 2 [default = PHONE_TYPE_UNSPECIFIED];
   }
 
   repeated PhoneNumber phones = 4;

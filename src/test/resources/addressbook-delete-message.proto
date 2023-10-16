@@ -26,10 +26,6 @@ message Person {
   repeated PhoneNumber phones = 4;
 }
 
-message AddressBook {
-  repeated Person person = 1;
-}
-
 message GetSomethingRequest {
 
 }

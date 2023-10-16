@@ -24,6 +24,7 @@ message Person {
   }
 
   repeated PhoneNumber phones = 4;
+  optional int32 age = 5;
 }
 
 message AddressBook {

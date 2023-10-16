@@ -1,7 +1,7 @@
 package cstpb.util;
 
-import cstpb.exception.PBException;
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet;
+import cstpb.exception.PBException;
 
 import java.nio.file.Path;
 

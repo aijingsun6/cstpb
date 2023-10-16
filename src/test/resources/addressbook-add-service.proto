@@ -41,3 +41,7 @@ message GetSomethingResponse {
 service FooService {
   rpc GetSomething(GetSomethingRequest) returns (GetSomethingResponse);
 }
+
+service BarService {
+ rpc GetSomething(GetSomethingRequest) returns (GetSomethingResponse);
+}

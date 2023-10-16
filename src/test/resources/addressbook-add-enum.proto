@@ -17,7 +17,11 @@ message Person {
     PHONE_TYPE_HOME = 2;
     PHONE_TYPE_WORK = 3;
   }
-
+  enum PersonGender {
+    UNKNOWN = 0;
+    MALE = 1;
+    FEMALE = 2;
+  }
   message PhoneNumber {
     optional string number = 1;
     optional PhoneType type = 2 [default = PHONE_TYPE_HOME];

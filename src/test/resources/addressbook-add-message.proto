@@ -38,6 +38,10 @@ message GetSomethingResponse {
 
 }
 
+message Hello {
+    optional string name = 1;
+}
+
 service FooService {
   rpc GetSomething(GetSomethingRequest) returns (GetSomethingResponse);
 }
