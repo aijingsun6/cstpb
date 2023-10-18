@@ -37,7 +37,7 @@ public abstract class AbsDescriptorDiffer implements Differ {
     protected void diffMessageMap(Map<String, DescriptorProtoHolder> left, Map<String, DescriptorProtoHolder> right, DescriptorDifferContext context) {
         for (Map.Entry<String, DescriptorProtoHolder> entry : left.entrySet()) {
             if (!right.containsKey(entry.getKey())) {
-                String msg = String.format("message %s delete", entry.getKey());
+                String msg = String.format("message %s delete at %s", entry.getKey(), entry.getValue().getFileName());
                 context.addDiffItem(new DiffItem<>(DiffField.MESSAGE, DiffType.DELETE, entry.getValue(), null, msg));
             } else {
                 diffMessage(entry.getValue(), right.get(entry.getKey()), context);
@@ -45,7 +45,7 @@ public abstract class AbsDescriptorDiffer implements Differ {
         }
         for (Map.Entry<String, DescriptorProtoHolder> entry : right.entrySet()) {
             if (!left.containsKey(entry.getKey())) {
-                String msg = String.format("message %s append", entry.getKey());
+                String msg = String.format("message %s append at %s", entry.getKey(), entry.getValue().getFileName());
                 context.addDiffItem(new DiffItem<>(DiffField.MESSAGE, DiffType.ADD, null, entry.getValue(), msg));
             }
         }
@@ -162,7 +162,7 @@ public abstract class AbsDescriptorDiffer implements Differ {
     protected void diffEnumMap(Map<String, EnumDescriptorProtoHolder> left, Map<String, EnumDescriptorProtoHolder> right, DescriptorDifferContext context) {
         for (Map.Entry<String, EnumDescriptorProtoHolder> entry : left.entrySet()) {
             if (!right.containsKey(entry.getKey())) {
-                String msg = String.format("enum %s delete", entry.getKey());
+                String msg = String.format("enum %s delete at %s", entry.getKey(), entry.getValue().getFileName());
                 context.addDiffItem(new DiffItem<>(DiffField.ENUM, DiffType.DELETE, entry.getValue(), null, msg));
             } else {
                 diffEnum(entry.getValue(), right.get(entry.getKey()), context);
@@ -170,7 +170,7 @@ public abstract class AbsDescriptorDiffer implements Differ {
         }
         for (Map.Entry<String, EnumDescriptorProtoHolder> entry : right.entrySet()) {
             if (!left.containsKey(entry.getKey())) {
-                String msg = String.format("enum %s append", entry.getKey());
+                String msg = String.format("enum %s append at %s", entry.getKey(), entry.getValue().getFileName());
                 context.addDiffItem(new DiffItem<>(DiffField.ENUM, DiffType.ADD, null, entry.getValue(), msg));
             }
         }
@@ -222,7 +222,7 @@ public abstract class AbsDescriptorDiffer implements Differ {
     protected void diffServiceMap(Map<String, ServiceDescriptorProtoHolder> left, Map<String, ServiceDescriptorProtoHolder> right, DescriptorDifferContext context) {
         for (Map.Entry<String, ServiceDescriptorProtoHolder> entry : left.entrySet()) {
             if (!right.containsKey(entry.getKey())) {
-                String msg = String.format("service %s delete", entry.getKey());
+                String msg = String.format("service %s delete at %s", entry.getKey(), entry.getValue().getFileName());
                 context.addDiffItem(new DiffItem<>(DiffField.SERVICE, DiffType.DELETE, entry.getValue(), null, msg));
             } else {
                 diffService(entry.getValue(), right.get(entry.getKey()), context);
@@ -232,7 +232,7 @@ public abstract class AbsDescriptorDiffer implements Differ {
 
         for (Map.Entry<String, ServiceDescriptorProtoHolder> entry : right.entrySet()) {
             if (!left.containsKey(entry.getKey())) {
-                String msg = String.format("service %s append", entry.getKey());
+                String msg = String.format("service %s append at %s", entry.getKey(), entry.getValue().getFileName());
                 context.addDiffItem(new DiffItem<>(DiffField.SERVICE, DiffType.ADD, null, entry.getValue(), msg));
             }
         }

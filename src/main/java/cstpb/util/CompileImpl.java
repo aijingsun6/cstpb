@@ -28,8 +28,13 @@ public class CompileImpl implements Compile {
 
     @Override
     public FileDescriptorSet compile(Path... fileOrDir) throws PBException {
+        return compile(Arrays.stream(fileOrDir).collect(Collectors.toList()));
+    }
+
+    @Override
+    public FileDescriptorSet compile(List<Path> files) throws PBException {
         Set<Path> input = new HashSet<>();
-        for (Path file : fileOrDir) {
+        for (Path file : files) {
             try {
                 dfs(file, input);
             } catch (IOException e) {

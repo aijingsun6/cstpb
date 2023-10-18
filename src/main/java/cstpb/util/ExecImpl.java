@@ -30,7 +30,7 @@ public class ExecImpl implements Exec {
         if (!CollectionUtils.isEmpty(args)) {
             command.addAll(args);
         }
-        logger.info("{} exec {}", workingDir, String.join(" ", command));
+        // logger.info("{} exec {}", workingDir, String.join(" ", command));
         ProcessBuilder pb = new ProcessBuilder(command);
         if (!StringUtils.isEmpty(workingDir)) {
             File wk = new File(workingDir);
@@ -48,7 +48,7 @@ public class ExecImpl implements Exec {
             console = IOUtils.toString(proc.getInputStream(), StandardCharsets.UTF_8);
             proc.waitFor(EXEC_TIMEOUT, TimeUnit.SECONDS);
             code = proc.exitValue();
-            logger.info("console: {}", console);
+            // logger.info("console: {}", console);
         } catch (InterruptedException | IOException e) {
             logger.error("exec cmd error", e);
         } finally {

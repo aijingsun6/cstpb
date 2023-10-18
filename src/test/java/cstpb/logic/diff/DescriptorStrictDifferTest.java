@@ -18,7 +18,7 @@ public class DescriptorStrictDifferTest extends AbsDifferTest {
         Assert.assertEquals(DiffType.ADD, diff.getType());
         Assert.assertEquals(DiffField.MESSAGE, diff.getField());
         Assert.assertNull(diff.getLeft());
-        Assert.assertEquals("message tutorial.Hello append", diff.getMsg());
+        Assert.assertEquals("message tutorial.Hello append at src/test/resources/addressbook-add-message.proto", diff.getMsg());
 
         DescriptorHolder holder = diff.getRight();
         Assert.assertEquals(right, holder.getFileName());
@@ -36,7 +36,7 @@ public class DescriptorStrictDifferTest extends AbsDifferTest {
         Assert.assertEquals(DiffType.DELETE, diff.getType());
         Assert.assertEquals(DiffField.MESSAGE, diff.getField());
         Assert.assertNull(diff.getRight());
-        Assert.assertEquals("message tutorial.AddressBook delete", diff.getMsg());
+        Assert.assertEquals("message tutorial.AddressBook delete at src/test/resources/addressbook.proto", diff.getMsg());
 
         DescriptorHolder holder = diff.getLeft();
         Assert.assertEquals(left, holder.getFileName());
@@ -139,7 +139,7 @@ public class DescriptorStrictDifferTest extends AbsDifferTest {
         Assert.assertEquals(DiffType.ADD, diff.getType());
         Assert.assertEquals(DiffField.ENUM, diff.getField());
         Assert.assertNull(diff.getLeft());
-        Assert.assertEquals("enum tutorial.Person.PersonGender append", diff.getMsg());
+        Assert.assertEquals("enum tutorial.Person.PersonGender append at src/test/resources/addressbook-add-enum.proto", diff.getMsg());
 
         DescriptorHolder holder = diff.getRight();
         Assert.assertEquals(right, holder.getFileName());
@@ -157,7 +157,7 @@ public class DescriptorStrictDifferTest extends AbsDifferTest {
         Assert.assertEquals(DiffType.DELETE, diff.getType());
         Assert.assertEquals(DiffField.ENUM, diff.getField());
         Assert.assertNull(diff.getRight());
-        Assert.assertEquals("enum tutorial.Person.PersonGender delete", diff.getMsg());
+        Assert.assertEquals("enum tutorial.Person.PersonGender delete at src/test/resources/addressbook-add-enum.proto", diff.getMsg());
 
         DescriptorHolder holder = diff.getLeft();
         Assert.assertEquals(left, holder.getFileName());
@@ -224,7 +224,7 @@ public class DescriptorStrictDifferTest extends AbsDifferTest {
         Assert.assertEquals(DiffType.ADD, diff.getType());
         Assert.assertEquals(DiffField.SERVICE, diff.getField());
         Assert.assertNull(diff.getLeft());
-        Assert.assertEquals("service tutorial.BarService append", diff.getMsg());
+        Assert.assertEquals("service tutorial.BarService append at src/test/resources/addressbook-add-service.proto", diff.getMsg());
 
         DescriptorHolder holder = diff.getRight();
         Assert.assertEquals(right, holder.getFileName());
@@ -242,7 +242,7 @@ public class DescriptorStrictDifferTest extends AbsDifferTest {
         Assert.assertEquals(DiffType.DELETE, diff.getType());
         Assert.assertEquals(DiffField.SERVICE, diff.getField());
         Assert.assertNull(diff.getRight());
-        Assert.assertEquals("service tutorial.BarService delete", diff.getMsg());
+        Assert.assertEquals("service tutorial.BarService delete at src/test/resources/addressbook-add-service.proto", diff.getMsg());
 
         DescriptorHolder holder = diff.getLeft();
         Assert.assertEquals(left, holder.getFileName());

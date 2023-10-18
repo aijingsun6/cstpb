@@ -3,13 +3,127 @@
  */
 package cstpb;
 
+import cstpb.exception.PBException;
+import cstpb.logic.DescriptorContext;
+import cstpb.logic.diff.DescriptorStrictDiffer;
+import cstpb.logic.diff.DiffItem;
+import cstpb.logic.diff.Differ;
+import cstpb.logic.model.DescriptorHolder;
+import cstpb.util.Compile;
+import cstpb.util.CompileImpl;
+import cstpb.util.Exec;
+import cstpb.util.ExecImpl;
+import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
+    private static final String OPTION_HELP_SHORT = "h";
+
+    private static final String OPTION_HELP_LONG = "help";
+
+    private static final String OPTION_DIFF_SHORT = "d";
+
+    private static final String OPTION_DIFF_LONG = "diff";
+
+    private static void help(Options options) {
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("cstpb", options);
+    }
+
+    private static void diff(String[] left, String[] right) throws PBException {
+        Exec exec = new ExecImpl();
+        Compile compile = new CompileImpl(exec);
+
+        DescriptorContext context1 = new DescriptorContext();
+        List<Path> leftPaths = Arrays.stream(left).map(x -> Paths.get(x)).collect(Collectors.toList());
+        context1.addFileSet(compile.compile(leftPaths));
+
+        DescriptorContext context2 = new DescriptorContext();
+        List<Path> rightPaths = Arrays.stream(right).map(x -> Paths.get(x)).collect(Collectors.toList());
+        context2.addFileSet(compile.compile(rightPaths));
+
+        Differ diff = new DescriptorStrictDiffer();
+        List<DiffItem<DescriptorHolder>> result = diff.diff(context1, context2);
+        if (result.isEmpty()) {
+            System.out.println("====== no diff found ====");
+        } else {
+            System.out.println("====== diff found =====");
+            for (DiffItem<DescriptorHolder> one : result) {
+                System.out.println(one.getMsg());
+            }
+        }
+    }
+
     public static void main(String[] args) {
-       logger.info("hello world.");
+
+        Options options = new Options();
+        // help
+        Option help = Option.builder(OPTION_HELP_SHORT)
+                .longOpt(OPTION_HELP_LONG)
+                .desc("display help message.")
+                .build();
+        options.addOption(help);
+        // diff
+
+        Option diff = Option.builder(OPTION_DIFF_SHORT)
+                .longOpt(OPTION_DIFF_LONG)
+                .desc("diff 2 proto file or 2 proto directory")
+                .build();
+        options.addOption(diff);
+
+        OptionGroup leftGroup = new OptionGroup();
+        Option left = Option.builder("l")
+                .longOpt("left")
+                .desc("left proto file or proto directory")
+                .valueSeparator('=')
+                .hasArgs()
+                .build();
+
+        leftGroup.addOption(left);
+        options.addOptionGroup(leftGroup);
+
+        OptionGroup rightGroup = new OptionGroup();
+        Option right = Option.builder("r")
+                .longOpt("right")
+                .desc("right proto file or proto directory")
+                .valueSeparator('=')
+                .hasArgs()
+                .build();
+
+        rightGroup.addOption(right);
+        options.addOptionGroup(rightGroup);
+        CommandLineParser parser = new DefaultParser();
+        try {
+            CommandLine line = parser.parse(options, args);
+            boolean hit = false;
+            if (line.hasOption(help)) {
+                hit = true;
+                help(options);
+            }
+
+            if (line.hasOption(diff) && line.hasOption(left) && line.hasOption(right)) {
+                hit = true;
+                try {
+                    diff(line.getOptionValues(left), line.getOptionValues(right));
+                } catch (PBException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!hit) {
+                help(options);
+            }
+        } catch (ParseException exp) {
+            exp.printStackTrace();
+        }
     }
 }
